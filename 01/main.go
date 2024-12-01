@@ -92,7 +92,36 @@ func merge(leftSlice, rightSlice []int) []int {
 	return result
 }
 
+func findSimilarityScore(leftSlice, rightSlice []int) int {
+	leftPointer, rightPointer := 0, 0
+	similarityScore := 0
+
+	for leftPointer < len(leftSlice) && rightPointer < len(rightSlice) {
+		if leftSlice[leftPointer] == rightSlice[rightPointer] {
+			count := 1
+
+			for rightPointer + 1 <= len(rightSlice) && rightSlice[rightPointer + 1] == rightSlice[rightPointer] {
+				count++
+				rightPointer++
+			}
+
+			similarityScore += leftSlice[leftPointer] * count
+			leftPointer++
+
+		} else if leftSlice[leftPointer] < rightSlice[rightPointer] {
+			leftPointer++
+		} else {
+			rightPointer++
+		}
+	}
+
+	return similarityScore
+}
+
 func main() {
+
+	fmt.Println("Starting part 1...")
+
 	list1, list2, err := parseInput("input.txt")
 	if err != nil {
 		fmt.Printf("Error parsing input: %s\n", err)
@@ -123,4 +152,10 @@ func main() {
 	}
 
 	fmt.Println("Sum of Differences:", sumOfDifferences)
+
+	fmt.Println("Starting part 2...")
+
+	similarityScore := findSimilarityScore(sortedList1, sortedList2)
+
+	fmt.Println("Similiarity Score:", similarityScore)	
 }
