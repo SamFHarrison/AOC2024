@@ -92,6 +92,31 @@ func merge(leftSlice, rightSlice []int) []int {
 	return result
 }
 
+func findSumOfDifferences(leftSlice, rightSlice []int) int {
+	differences := []int{}
+	list1Pointer, list2Pointer := 0, 0
+
+	for list1Pointer < len(leftSlice) && list2Pointer < len(rightSlice) {
+		difference := leftSlice[list1Pointer] - rightSlice[list2Pointer]
+		if difference < 0 {
+			difference = -difference
+		}
+
+		differences = append(differences, difference)
+
+		list1Pointer++
+		list2Pointer++
+	}
+
+	sumOfDifferences := 0
+
+	for _, value := range differences {
+		sumOfDifferences += value
+	}
+
+	return sumOfDifferences
+}
+
 func findSimilarityScore(leftSlice, rightSlice []int) int {
 	leftPointer, rightPointer := 0, 0
 	similarityScore := 0
@@ -120,42 +145,28 @@ func findSimilarityScore(leftSlice, rightSlice []int) int {
 
 func main() {
 
-	fmt.Println("Starting part 1...")
-
+	fmt.Println("🔄 Parsing input...")
 	list1, list2, err := parseInput("input.txt")
 	if err != nil {
 		fmt.Printf("Error parsing input: %s\n", err)
 	}
-
+	fmt.Println("☑️  Input parsed")
+	fmt.Println("")
+	
+	fmt.Println("🔄 Sorting lists...")
 	sortedList1 := mergeSort(list1)
 	sortedList2 := mergeSort(list2)
-
-	differences := []int{}
-	list1Pointer, list2Pointer := 0, 0
-
-	for list1Pointer < len(sortedList1) && list2Pointer < len(sortedList2) {
-		difference := sortedList1[list1Pointer] - sortedList2[list2Pointer]
-		if difference < 0 {
-			difference = -difference
-		}
-
-		differences = append(differences, difference)
-
-		list1Pointer++
-		list2Pointer++
-	}
-
-	sumOfDifferences := 0
-
-	for _, value := range differences {
-		sumOfDifferences += value
-	}
-
+	fmt.Println("☑️  Lists sorted")
+	fmt.Println("")
+	
+	fmt.Println("🔄 Starting part 1...")
+	sumOfDifferences := findSumOfDifferences(sortedList1, sortedList2)
 	fmt.Println("Sum of Differences:", sumOfDifferences)
-
-	fmt.Println("Starting part 2...")
-
+	fmt.Println("☑️  Part 1 complete")
+	fmt.Println("")
+	
+	fmt.Println("🔄 Starting part 2...")
 	similarityScore := findSimilarityScore(sortedList1, sortedList2)
-
+	fmt.Println("☑️  Part 2 complete")
 	fmt.Println("Similiarity Score:", similarityScore)	
 }
