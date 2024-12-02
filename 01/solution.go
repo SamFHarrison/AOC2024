@@ -150,20 +150,17 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error parsing input: %s\n", err)
 	}
-	fmt.Println("☑️  Input parsed")
-	fmt.Println("")
+	fmt.Printf("☑️  Input parsed\n\n")
 	
 	fmt.Println("🔄 Sorting lists...")
 	sortedList1 := mergeSort(list1)
 	sortedList2 := mergeSort(list2)
-	fmt.Println("☑️  Lists sorted")
-	fmt.Println("")
+	fmt.Printf("☑️  Lists sorted\n\n")
 	
 	fmt.Println("🔄 Starting part 1...")
 	sumOfDifferences := findSumOfDifferences(sortedList1, sortedList2)
 	fmt.Println("Sum of Differences:", sumOfDifferences)
-	fmt.Println("☑️  Part 1 complete")
-	fmt.Println("")
+	fmt.Printf("☑️  Part 1 complete\n\n")
 	
 	fmt.Println("🔄 Starting part 2...")
 	similarityScore := findSimilarityScore(sortedList1, sortedList2)
