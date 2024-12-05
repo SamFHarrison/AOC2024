@@ -184,6 +184,63 @@ func wordSearch(strings []string) int {
 	return wordCount
 }
 
+func match3x3(grid [][]string) int {
+	patterns := [][][]string{
+        {
+            {"M", ".", "S"},
+            {".", "A", "."},
+            {"M", ".", "S"},
+        },
+        {
+            {"S", ".", "M"},
+            {".", "A", "."},
+            {"S", ".", "M"},
+        },
+        {
+            {"M", ".", "M"},
+            {".", "A", "."},
+            {"S", ".", "S"},
+        },
+        {
+            {"S", ".", "S"},
+            {".", "A", "."},
+            {"M", ".", "M"},
+        },
+    }
+
+	count := 0
+
+	rows := len(grid)
+	columns := len(grid[0])
+
+	for i := 0; i < rows-2; i++ {
+        for j := 0; j < columns-2; j++ {
+            for _, pattern := range patterns {
+                if matchesPattern(pattern, grid, i, j) {
+                    count++
+                    break
+                }
+            }
+        }
+    }
+	return count
+}
+
+func matchesPattern(pattern, grid [][]string, row, column int) bool {
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			if pattern[i][j] == "." {
+				continue
+			}
+			if grid[row + i][column + j] != pattern[i][j] {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
 func main()  {
 
 	fmt.Println("🔄 Parsing input...")
@@ -206,7 +263,11 @@ func main()  {
 	diagonals := buildDiagonalStrings(grid)
 	strings = append(strings, diagonals...)
 	fmt.Printf("✅ Diagonal strings built\n\n")
+
+	fmt.Println("🔄 Checking 3x3 grids for X-MAS pattern...")
+	Xcount := match3x3(grid)
+	fmt.Printf("✅ Number of X-MAS patterns found: %d\n\n", Xcount)
 	
 	wordCount := wordSearch(strings)
-	fmt.Println(wordCount)
+	fmt.Println("Amount of 'XMAS' found: ", wordCount)
 }
